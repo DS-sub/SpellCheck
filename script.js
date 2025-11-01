@@ -52,7 +52,7 @@ function startGame() {
 
   // 게임 타이머 시작 (1초마다 업데이트)
   gameTimerInterval = setInterval(() => {
-    currentGameTime = currentGameTime + Math.floor((Date.now() - gameStartTime) / 1000);
+    currentGameTime = 10 + Math.floor((Date.now() - gameStartTime) / 1000);
     updateGameTimer();
     checkSpellCooldowns();
   }, 1000);
@@ -78,6 +78,9 @@ function resetGame() {
 
   updateGameTimer();
   document.getElementById('startBtn').textContent = '게임 시작';
+
+  // 결과 화면 초기화
+  updateSpellTextDisplay();
 }
 
 // 게임 타이머 표시 업데이트
@@ -116,8 +119,8 @@ function handleSpellClick(event) {
   // 버튼 상태 업데이트
   updateSpellButton(position, currentGameTime);
 
-  // 클립보드에 복사
-  copySpellTextToClipboard();
+  // 결과 화면 업데이트
+  updateSpellTextDisplay();
 }
 
 // 스펠 버튼 UI 업데이트
@@ -130,6 +133,7 @@ function updateSpellButton(position, pressedTime) {
     button.classList.remove('active');
     button.disabled = false;
     timerElement.textContent = '--:--';
+    button.style.setProperty('--water-level', '0%');
   } else {
     // 스펠이 눌림
     button.classList.add('active');
@@ -140,8 +144,13 @@ function updateSpellButton(position, pressedTime) {
       const minutes = Math.floor(remainingTime / 60);
       const seconds = remainingTime % 60;
       timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+      // 물이 빠지는 효과: 남은 시간 비율에 따라 물 높이 설정 (100% -> 0%)
+      const waterLevel = (remainingTime / 300) * 100;
+      button.style.setProperty('--water-level', `${waterLevel}%`);
     } else {
       timerElement.textContent = '00:00';
+      button.style.setProperty('--water-level', '0%');
     }
   }
 }
@@ -159,6 +168,11 @@ function checkSpellCooldowns() {
         const seconds = remainingTime % 60;
         const timerElement = document.getElementById(`timer-${position}`);
         timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+        // 물이 빠지는 효과 업데이트
+        const button = document.getElementById(`spell-${position}`);
+        const waterLevel = (remainingTime / 300) * 100;
+        button.style.setProperty('--water-level', `${waterLevel}%`);
       } else {
         // 쿨타임 종료 - 스펠 상태 초기화
         spellStates[position] = null;
@@ -168,11 +182,11 @@ function checkSpellCooldowns() {
   });
 
   // 스펠 텍스트 업데이트 (쿨타임 종료된 것 제거)
-  copySpellTextToClipboard();
+  updateSpellTextDisplay();
 }
 
-// 스펠 텍스트 생성 및 클립보드 복사
-function copySpellTextToClipboard() {
+// 스펠 텍스트 생성 및 화면 표시
+function updateSpellTextDisplay() {
   const activeSpells = [];
 
   // 활성화된 스펠들만 수집 (5분이 지나지 않은 것들)
@@ -199,43 +213,13 @@ function copySpellTextToClipboard() {
   activeSpells.sort((a, b) => a.futureTime - b.futureTime);
 
   // 정렬된 순서로 텍스트 조합
-  const textToCopy = activeSpells.map(spell => `${spell.position} ${spell.timeString}`).join(' ');
+  const textToDisplay = activeSpells.map(spell => `${spell.position} ${spell.timeString}`).join(' ');
 
-  // 클립보드에 복사
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard
-      .writeText(textToCopy)
-      .then(() => {
-        console.log('복사됨:', textToCopy);
-      })
-      .catch(err => {
-        console.error('복사 실패:', err);
-        fallbackCopyTextToClipboard(textToCopy);
-      });
+  // 결과 화면에 표시
+  const resultDisplay = document.getElementById('resultDisplay');
+  if (textToDisplay) {
+    resultDisplay.textContent = textToDisplay;
   } else {
-    fallbackCopyTextToClipboard(textToCopy);
+    resultDisplay.textContent = '';
   }
-}
-
-// 클립보드 복사 폴백 (구형 브라우저 지원)
-function fallbackCopyTextToClipboard(text) {
-  const textArea = document.createElement('textarea');
-  textArea.value = text;
-  textArea.style.position = 'fixed';
-  textArea.style.left = '-999999px';
-  textArea.style.top = '-999999px';
-  document.body.appendChild(textArea);
-  textArea.focus();
-  textArea.select();
-
-  try {
-    const successful = document.execCommand('copy');
-    if (successful) {
-      console.log('복사됨 (폴백):', text);
-    }
-  } catch (err) {
-    console.error('복사 실패 (폴백):', err);
-  }
-
-  document.body.removeChild(textArea);
 }
