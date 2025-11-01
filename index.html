@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>롤 점멸 스펠 체크</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>롤 점멸 스펠 체크</h1>
+        
+        <div class="game-time-section">
+            <button id="startBtn" class="start-btn">게임 시작</button>
+            <div class="timer-display">
+                <span id="gameTimer">00:00</span>
+            </div>
+        </div>
+
+        <div class="spells-section">
+            <div class="spell-row">
+                <button class="spell-btn" data-position="top" id="spell-top">
+                    <span class="spell-name">탑</span>
+                    <span class="spell-timer" id="timer-top">--:--</span>
+                </button>
+                <button class="spell-btn" data-position="jg" id="spell-jg">
+                    <span class="spell-name">정글</span>
+                    <span class="spell-timer" id="timer-jg">--:--</span>
+                </button>
+                <button class="spell-btn" data-position="mid" id="spell-mid">
+                    <span class="spell-name">미드</span>
+                    <span class="spell-timer" id="timer-mid">--:--</span>
+                </button>
+            </div>
+            <div class="spell-row">
+                <button class="spell-btn" data-position="adc" id="spell-adc">
+                    <span class="spell-name">원딜</span>
+                    <span class="spell-timer" id="timer-adc">--:--</span>
+                </button>
+                <button class="spell-btn" data-position="sup" id="spell-sup">
+                    <span class="spell-name">서폿</span>
+                    <span class="spell-timer" id="timer-sup">--:--</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

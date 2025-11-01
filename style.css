@@ -1,0 +1,145 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 100%;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.game-time-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f5f5f5;
+    border-radius: 10px;
+}
+
+.start-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.start-btn:hover {
+    background: #45a049;
+}
+
+.start-btn:active {
+    transform: scale(0.98);
+}
+
+.timer-display {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+    font-family: 'Courier New', monospace;
+}
+
+.spells-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.spell-row {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.spell-btn {
+    flex: 1;
+    background: #fff;
+    border: 3px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    min-height: 100px;
+}
+
+.spell-btn:hover:not(:disabled) {
+    border-color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.spell-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    background: #f0f0f0;
+}
+
+.spell-btn.active {
+    border-color: #4CAF50;
+    background: #e8f5e9;
+}
+
+.spell-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.spell-timer {
+    font-size: 24px;
+    font-weight: bold;
+    color: #667eea;
+    font-family: 'Courier New', monospace;
+}
+
+.spell-btn.active .spell-timer {
+    color: #4CAF50;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+    
+    .spell-row {
+        flex-direction: column;
+    }
+    
+    .game-time-section {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
