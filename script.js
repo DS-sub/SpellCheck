@@ -52,7 +52,7 @@ function startGame() {
     
     // 게임 타이머 시작 (1초마다 업데이트)
     gameTimerInterval = setInterval(() => {
-        currentGameTime = 10 + Math.floor((Date.now() - gameStartTime) / 1000);
+        currentGameTime = currentGameTime + Math.floor((Date.now() - gameStartTime) / 1000);
         updateGameTimer();
         checkSpellCooldowns();
     }, 1000);
