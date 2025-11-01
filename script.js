@@ -47,7 +47,7 @@ function startGame() {
     }
     
     gameStartTime = Date.now();
-    currentGameTime = 0;
+    currentGameTime = 10;
     updateGameTimer();
     
     // 게임 타이머 시작 (1초마다 업데이트)
